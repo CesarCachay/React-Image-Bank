@@ -1,8 +1,12 @@
 import React from "react";
 import Searcher from "./components/Searcher";
+import ImagesList from "./components/ImagesList";
 
 function App() {
   const [value, setValue] = React.useState("");
+  const [images, setImages] = React.useState([]);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [totalPages, setTotalPages] = React.useState(1);
 
   React.useEffect(() => {
     const askApi = async () => {
@@ -13,12 +17,25 @@ function App() {
       const url = `https://pixabay.com/api/?key=${key}&q=${value}&per_page=${imagesPerPage}`;
 
       const response = await fetch(url);
+      const result = await response.json();
 
-      console.log(response);
+      setImages(result.hits);
+      const calculatePages = Math.ceil(result.totalHits / imagesPerPage);
+      setTotalPages(calculatePages);
     };
 
     askApi();
   }, [value]);
+
+  const previousPage = e => {
+    let currentPagePrevious = currentPage - 1;
+    setCurrentPage(currentPagePrevious);
+  };
+
+  const nextPage = e => {
+    let currentPageNext = currentPage + 1;
+    setCurrentPage(currentPageNext);
+  };
 
   return (
     <div className="app container">
@@ -27,7 +44,19 @@ function App() {
         <Searcher setValue={setValue} />
       </div>
 
-      <div className="row justify-content-center" />
+      <div className="row justify-content-center">
+        <ImagesList images={images} />
+        {currentPage === 1 ? null : (
+          <button onClick={previousPage} className="btn btn-info mr-1">
+            &laquo; Previous
+          </button>
+        )}
+        {currentPage === totalPages ? null : (
+          <button onClick={nextPage} className="btn btn-info">
+            Next Page &raquo;
+          </button>
+        )}
+      </div>
     </div>
   );
 }
