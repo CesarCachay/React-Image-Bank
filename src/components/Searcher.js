@@ -40,9 +40,7 @@ function Searcher({ setValue }) {
           />
         </div>
       </div>
-      {{ error } ? (
-        <Error message="Add something in your search input" />
-      ) : null}
+      {error ? <Error message="Add something in the search input" /> : null}
     </form>
   );
 }
