@@ -1,8 +1,10 @@
 import React from "react";
 import Searcher from "./components/Searcher";
+import ImagesList from "./components/ImagesList";
 
 function App() {
   const [value, setValue] = React.useState("");
+  const [images, setImages] = React.useState([]);
 
   React.useEffect(() => {
     const askApi = async () => {
@@ -13,8 +15,9 @@ function App() {
       const url = `https://pixabay.com/api/?key=${key}&q=${value}&per_page=${imagesPerPage}`;
 
       const response = await fetch(url);
+      const result = await response.json();
 
-      console.log(response);
+      setImages(result.hits);
     };
 
     askApi();
@@ -27,7 +30,9 @@ function App() {
         <Searcher setValue={setValue} />
       </div>
 
-      <div className="row justify-content-center" />
+      <div className="row justify-content-center">
+        <ImagesList images={images} />
+      </div>
     </div>
   );
 }

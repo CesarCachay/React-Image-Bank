@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Error from "./Error";
 
 function Searcher({ setValue }) {
-  const [inputSearch, setInputSearch] = React.useState("");
-  const [error, setError] = React.useState(false);
+  const [inputSearch, setInputSearch] = useState("");
+  const [error, setError] = useState(false);
 
   const searchImage = e => {
     e.preventDefault();
@@ -15,6 +15,7 @@ function Searcher({ setValue }) {
     }
 
     setError(false);
+    setValue(inputSearch);
   };
 
   return (
@@ -34,14 +35,12 @@ function Searcher({ setValue }) {
         <div className="form-group col-md-4">
           <input
             type="submit"
-            className="btn btn-lg btn-danger btn-block"
+            className="btn btn-lg btn-success btn-block"
             value="Search"
           />
         </div>
       </div>
-      {{ error } ? (
-        <Error message="Add something in your search input" />
-      ) : null}
+      {error ? <Error message="Add something in the search input" /> : null}
     </form>
   );
 }
