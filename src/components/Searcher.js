@@ -1,6 +1,8 @@
 import React from "react";
 
-function Searcher() {
+import Error from "./Error";
+
+function Searcher({ setValue }) {
   const [inputSearch, setInputSearch] = React.useState("");
   const [error, setError] = React.useState(false);
 
@@ -37,6 +39,9 @@ function Searcher() {
           />
         </div>
       </div>
+      {{ error } ? (
+        <Error message="Add something in your search input" />
+      ) : null}
     </form>
   );
 }
