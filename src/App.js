@@ -27,6 +27,7 @@ function App() {
     askApi();
   }, [value]);
 
+
   const previousPage = e => {
     let currentPagePrevious = currentPage - 1;
     setCurrentPage(currentPagePrevious);
