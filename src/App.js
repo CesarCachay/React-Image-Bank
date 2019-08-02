@@ -14,7 +14,7 @@ function App() {
 
       const imagesPerPage = 30;
       const key = "13100183-97210bbb2673d002f41de0d77";
-      const url = `https://pixabay.com/api/?key=${key}&q=${value}&per_page=${imagesPerPage}`;
+      const url = `https://pixabay.com/api/?key=${key}&q=${value}&per_page=${imagesPerPage}&page=${currentPage}`;
 
       const response = await fetch(url);
       const result = await response.json();
@@ -22,11 +22,14 @@ function App() {
       setImages(result.hits);
       const calculatePages = Math.ceil(result.totalHits / imagesPerPage);
       setTotalPages(calculatePages);
+
+      // Move to the top of the page
+      const moveViewToTop = document.querySelector(".jumbotron");
+      moveViewToTop.scrollIntoView({ behavior: "smooth", block: "end" });
     };
 
     askApi();
-  }, [value]);
-
+  }, [value, currentPage]);
 
   const previousPage = e => {
     let currentPagePrevious = currentPage - 1;
